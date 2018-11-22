@@ -1,18 +1,25 @@
-var fs = require('fs')
-var myArray = undefined
-
-function splitAndCall(callback) {
-  fs.readFile(process.argv[2], function doneReading(err, fileContents) {    
-    myArray = String(fileContents)
-    myArray = myArray.split("\n")
+var fs = require('fs');
+ 
+ 
+if (process.argv.length <= 2) {
+    console.log("Usage: " + __filename + " path/to/directory")
+    process.exit(-1)
+}
+ 
+var path = process.argv[2]
+ 
+fs.readdir(path, function(err, items) {
     
-    callback()
-  })
-}
+ 
+  for (i = items.length - 1; i >= 0; i -= 1) {
+      
+    if (items.indexOf('.txt') != -1){
+      items.splice(i,1)
+    }
+    console.log(".")
 
-function logMyNumber(){
-    console.log(myArray.length - 1) 
-}
+  }
 
+  console.log(items)
 
-splitAndCall(logMyNumber)
+});
